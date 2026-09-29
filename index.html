@@ -255,6 +255,7 @@
                     <span class="text-slate-400 font-semibold"><i class="fas fa-sort text-amber-500 mr-1"></i> Sắp Xếp:</span>
                     <select id="sortFilter" onchange="renderProducts()" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-slate-200 focus:outline-none">
                         <option value="DEFAULT">Mặc Định</option>
+                        <option value="HOT_ONLY">🔥 Chỉ Xem Mẫu Bán Chạy</option>
                         <option value="PRICE_ASC">Giá: Thấp Đến Cao</option>
                         <option value="PRICE_DESC">Giá: Cao Đến Thấp</option>
                     </select>
@@ -726,7 +727,7 @@
 
     <!-- MODAL ADMIN THÊM / SỬA SẢN PHẨM -->
     <div id="productAdminModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('productAdminModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fas fa-xmark text-xl"></i></button>
             <h3 class="text-base font-bold text-white mb-4" id="prodModalTitle">Thêm Sản Phẩm Mới</h3>
 
@@ -749,28 +750,58 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-slate-400 mb-1 font-semibold">Link Ảnh Sản Phẩm (URL)</label>
+                    <label class="block text-slate-400 mb-1 font-semibold">Link Ảnh Sản Phẩm Chính (URL)</label>
                     <input type="url" id="prodImgUrl" required placeholder="https://..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
                 </div>
+
+                <!-- BỔ SUNG: DÁNH DẤU SẢN PHẨM BÁN CHẠY -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <span class="text-slate-300 font-bold"><i class="fas fa-fire text-rose-500 mr-1.5"></i>Đánh dấu Sản Phẩm Bán Chạy (HOT):</span>
+                    <input type="checkbox" id="prodIsHot" class="w-5 h-5 accent-amber-500 cursor-pointer">
+                </div>
+
+                <!-- BỔ SUNG: THÊM CÁC MÀU SẮC & ẢNH CHI TIẾT THEO MÀU -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-amber-400 font-bold"><i class="fas fa-palette mr-1.5"></i>Link Ảnh Bộ Cập Nhật Màu Sắc (Phân cách dấu phẩy):</label>
+                    <p class="text-[10px] text-slate-500">Mỗi màu nhập dạng: <b>Tên Màu|Link Ảnh</b> (Ví dụ: Đen|https://img1.jpg, Trắng|https://img2.jpg)</p>
+                    <textarea id="prodGalleryText" rows="3" placeholder="Đen|https://..., Trắng|https://..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-[11px]"></textarea>
+                </div>
+
                 <button type="submit" class="w-full gold-gradient text-slate-950 font-bold py-3 rounded-xl text-xs hover:opacity-90 mt-2">Lưu Sản Phẩm</button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL XEM CHI TIẾT SẢN PHẨM KHÁCH HÀNG -->
+    <!-- MODAL XEM CHI TIẾT SẢN PHẨM KHÁCH HÀNG (CÓ CHỌN MÀU SẮC ĐỔI ẢNH REALTIME) -->
     <div id="productDetailModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('productDetailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fas fa-xmark text-xl"></i></button>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <img id="detailModalImg" src="" class="w-full h-56 object-cover rounded-xl border border-slate-800">
+                <div>
+                    <img id="detailModalImg" src="" class="w-full h-56 object-cover rounded-xl border border-slate-800 shadow-md transition duration-300">
+                    
+                    <!-- THUMBNAIL MÀU SẮC KHÁC -->
+                    <div id="detailGalleryThumbs" class="flex flex-wrap gap-2 mt-3"></div>
+                </div>
+
                 <div class="space-y-2 text-xs">
                     <span id="detailModalCategory" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded text-[10px] font-bold">DANH MỤC</span>
                     <h2 id="detailModalTitle" class="text-sm font-extrabold text-white">Tên sản phẩm</h2>
                     <span id="detailModalPrice" class="text-base font-black text-amber-400 block">0đ</span>
-                    <p class="text-slate-400 text-[11px]">✔ Hàng Taobao/1688 chuẩn 1:1, full tag/box.<br>✔ Đổi trả miễn phí trong 7 ngày nếu lỗi nhà sản xuất.</p>
                     
-                    <button id="btnDetailBuyNow" class="w-full gold-gradient text-slate-950 font-extrabold py-2.5 rounded-xl text-xs mt-3">
+                    <div class="pt-1">
+                        <label class="text-slate-300 font-bold block mb-1">Màu Sắc Đang Chọn:</label>
+                        <span id="detailActiveColorText" class="text-amber-400 font-extrabold bg-slate-950 px-2 py-1 rounded border border-slate-800 inline-block">Mặc Định</span>
+                    </div>
+
+                    <p class="text-slate-400 text-[11px] pt-1">
+                        ✔ Hàng Taobao/1688 chuẩn 1:1, full tag/box.<br>
+                        ✔ Hỗ trợ bao đổi trả trong 7 ngày.<br>
+                        ✔ Vận chuyển trực tiếp kho Hà Nội 5-7 ngày.
+                    </p>
+                    
+                    <button id="btnDetailBuyNow" class="w-full gold-gradient text-slate-950 font-extrabold py-2.5 rounded-xl text-xs mt-3 hover:opacity-90">
                         Đặt Hàng Sản Phẩm Này Ngay
                     </button>
                 </div>
@@ -824,10 +855,32 @@
 
         let reviews = [];
         let products = [
-            { id: 1, category: 'AO_DAU', name: 'Áo Đấu Real Madrid Rep 1:1 2026', price: 260000, img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500', isHot: true },
-            { id: 2, category: 'GIAY', name: 'Giày Thể Thao Cầu Lông Chuyên Dụng', price: 450000, img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500', isHot: true },
-            { id: 3, category: 'AO_DAU', name: 'Bộ Quần Áo Bóng Đội Nam Cao Cấp', price: 320000, img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', isHot: false },
-            { id: 4, category: 'GYM', name: 'Áo Tập Gym Nam Co Giãn 4 Chiều', price: 190000, img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500', isHot: false }
+            { 
+                id: 1, 
+                category: 'AO_DAU', 
+                name: 'Áo Đấu Real Madrid Rep 1:1 2026', 
+                price: 260000, 
+                img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500', 
+                isHot: true,
+                gallery: [
+                    { color: 'Trắng Sân Nhà', img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500' },
+                    { color: 'Đen Sân Khách', img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500' }
+                ]
+            },
+            { 
+                id: 2, 
+                category: 'GIAY', 
+                name: 'Giày Thể Thao Cầu Lông Chuyên Dụng', 
+                price: 450000, 
+                img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500', 
+                isHot: true,
+                gallery: [
+                    { color: 'Đỏ Nổi Bật', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500' },
+                    { color: 'Xanh Thể Thao', img: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500' }
+                ]
+            },
+            { id: 3, category: 'AO_DAU', name: 'Bộ Quần Áo Bóng Đội Nam Cao Cấp', price: 320000, img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500', isHot: false, gallery: [] },
+            { id: 4, category: 'GYM', name: 'Áo Tập Gym Nam Co Giãn 4 Chiều', price: 190000, img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500', isHot: false, gallery: [] }
         ];
 
         let orders = [];
@@ -878,6 +931,14 @@
                 }
                 renderCategoryUI();
                 renderProducts();
+            });
+
+            db.ref('youngzone_web_products').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    products = Object.values(data);
+                    renderProducts();
+                }
             });
         }
 
@@ -1026,6 +1087,7 @@
             }
         }
 
+        // HÀM MỞ MODAL XEM CHI TIẾT SẢN PHẨM & MÀU SẮC
         function openProductDetailModal(pId) {
             const p = products.find(prod => prod.id === pId);
             if (!p) return;
@@ -1036,6 +1098,20 @@
             document.getElementById('detailModalTitle').innerText = p.name;
             document.getElementById('detailModalCategory').innerText = catObj ? catObj.name : 'SẢN PHẨM';
             document.getElementById('detailModalPrice').innerText = p.price.toLocaleString() + 'đ';
+            document.getElementById('detailActiveColorText').innerText = 'Màu Gốc Mặc Định';
+
+            // RENDER DANH SÁCH BỘ BẢNG MÀU SẮC CỦA SẢN PHẨM
+            const thumbsContainer = document.getElementById('detailGalleryThumbs');
+            if (p.gallery && p.gallery.length > 0) {
+                thumbsContainer.innerHTML = p.gallery.map(item => `
+                    <button onclick="changeDetailActiveColor('${item.img}', '${item.color}')" class="flex items-center space-x-1.5 bg-slate-950 hover:border-amber-500 border border-slate-800 p-1 rounded-lg transition text-[10px]">
+                        <img src="${item.img}" class="w-8 h-8 rounded object-cover">
+                        <span class="text-slate-300 font-bold px-1">${item.color}</span>
+                    </button>
+                `).join('');
+            } else {
+                thumbsContainer.innerHTML = `<span class="text-[10px] text-slate-500 italic">Sản phẩm này chưa có bản xem trước màu khác.</span>`;
+            }
 
             document.getElementById('btnDetailBuyNow').onclick = function() {
                 closeModal('productDetailModal');
@@ -1045,8 +1121,14 @@
             document.getElementById('productDetailModal').classList.remove('hidden');
         }
 
+        function changeDetailActiveColor(imgUrl, colorName) {
+            document.getElementById('detailModalImg').src = imgUrl;
+            document.getElementById('detailActiveColorText').innerText = colorName;
+        }
+
         function syncOrdersToFirebase() { db.ref('youngzone_web_orders').set(orders); }
         function syncReviewsToFirebase() { db.ref('youngzone_web_reviews').set(reviews); }
+        function syncProductsToFirebase() { db.ref('youngzone_web_products').set(products); }
 
         function initBannerUI() {
             const banner = document.getElementById('flashSaleBanner');
@@ -1190,7 +1272,10 @@
                 else if (priceFilter === '200_400') matchPrice = p.price >= 200000 && p.price <= 400000;
                 else if (priceFilter === 'OVER400') matchPrice = p.price > 400000;
 
-                return matchCat && matchKw && matchPrice;
+                let matchHot = true;
+                if (sortFilter === 'HOT_ONLY') matchHot = p.isHot === true;
+
+                return matchCat && matchKw && matchPrice && matchHot;
             });
 
             if (sortFilter === 'PRICE_ASC') filtered.sort((a,b) => a.price - b.price);
@@ -1201,9 +1286,11 @@
                 return;
             }
 
-            list.innerHTML = filtered.map((p, idx) => `
+            list.innerHTML = filtered.map((p) => {
+                const realIdx = products.findIndex(item => item.id === p.id);
+                return `
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-xl card-glow relative">
-                    ${p.isHot ? `<span class="absolute top-2 left-2 bg-rose-500 text-white font-black text-[9px] px-2 py-0.5 rounded-full shadow-lg">🔥 BÁN CHẠY</span>` : ''}
+                    ${p.isHot ? `<span class="absolute top-2 left-2 bg-rose-500 text-white font-black text-[9px] px-2 py-0.5 rounded-full shadow-lg z-10"><i class="fas fa-fire mr-1"></i>BÁN CHẠY</span>` : ''}
                     
                     <img src="${p.img}" onclick="openProductDetailModal(${p.id})" class="w-full h-44 object-cover bg-slate-950 cursor-pointer hover:scale-105 transition duration-300">
                     <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
@@ -1223,14 +1310,26 @@
                         </div>
 
                         ${isAdmin ? `
-                            <div class="flex justify-between pt-2 border-t border-slate-800/80 text-[11px]">
-                                <button onclick="editProduct(${idx})" class="text-amber-400 hover:underline"><i class="fas fa-pen mr-1"></i>Sửa</button>
-                                <button onclick="deleteProduct(${idx})" class="text-rose-400 hover:underline"><i class="fas fa-trash"></i></button>
+                            <div class="flex justify-between items-center pt-2 border-t border-slate-800/80 text-[11px]">
+                                <button onclick="toggleHotStatus(${realIdx})" class="${p.isHot ? 'text-amber-400 font-bold' : 'text-slate-500'} hover:underline">
+                                    <i class="fas fa-star mr-0.5"></i>${p.isHot ? 'Bỏ Hot' : 'Bật Hot'}
+                                </button>
+                                <div>
+                                    <button onclick="editProduct(${realIdx})" class="text-amber-400 hover:underline mr-2"><i class="fas fa-pen mr-0.5"></i>Sửa</button>
+                                    <button onclick="deleteProduct(${realIdx})" class="text-rose-400 hover:underline"><i class="fas fa-trash"></i></button>
+                                </div>
                             </div>
                         ` : ''}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
+        }
+
+        function toggleHotStatus(realIdx) {
+            products[realIdx].isHot = !products[realIdx].isHot;
+            syncProductsToFirebase();
+            renderProducts();
+            showToast(`Đã ${products[realIdx].isHot ? 'bật' : 'tắt'} nhãn BÁN CHẠY cho [${products[realIdx].name}]`);
         }
 
         function renderReviews() {
@@ -1787,6 +1886,8 @@
             document.getElementById('prodName').value = '';
             document.getElementById('prodPrice').value = '';
             document.getElementById('prodImgUrl').value = '';
+            document.getElementById('prodIsHot').checked = false;
+            document.getElementById('prodGalleryText').value = '';
             document.getElementById('productAdminModal').classList.remove('hidden');
         }
 
@@ -1798,36 +1899,68 @@
             document.getElementById('prodCategory').value = p.category || (dynamicCategories[0] ? dynamicCategories[0].code : '');
             document.getElementById('prodPrice').value = p.price;
             document.getElementById('prodImgUrl').value = p.img;
+            document.getElementById('prodIsHot').checked = p.isHot || false;
+
+            if (p.gallery && p.gallery.length > 0) {
+                document.getElementById('prodGalleryText').value = p.gallery.map(g => `${g.color}|${g.img}`).join(', ');
+            } else {
+                document.getElementById('prodGalleryText').value = '';
+            }
+
             document.getElementById('productAdminModal').classList.remove('hidden');
         }
 
         function handleSaveProduct(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('editProdIndex').value);
+            
+            // XỬ LÝ CHUỖI NHẬP BỘ ẢNH GALLERY THEO MÀU
+            const rawGalleryStr = document.getElementById('prodGalleryText').value.trim();
+            let parsedGallery = [];
+
+            if (rawGalleryStr) {
+                parsedGallery = rawGalleryStr.split(',').map(item => {
+                    const parts = item.split('|');
+                    return {
+                        color: parts[0] ? parts[0].trim() : 'Màu sắc',
+                        img: parts[1] ? parts[1].trim() : document.getElementById('prodImgUrl').value
+                    };
+                }).filter(g => g.img);
+            }
+
             const pObj = {
                 id: idx >= 0 ? products[idx].id : Date.now(),
                 name: document.getElementById('prodName').value,
                 category: document.getElementById('prodCategory').value,
                 price: parseInt(document.getElementById('prodPrice').value),
                 img: document.getElementById('prodImgUrl').value,
-                isHot: idx >= 0 ? products[idx].isHot : false
+                isHot: document.getElementById('prodIsHot').checked,
+                gallery: parsedGallery
             };
 
             if (idx >= 0) products[idx] = pObj;
             else products.unshift(pObj);
 
-            renderProducts(); closeModal('productAdminModal');
+            syncProductsToFirebase();
+            renderProducts(); 
+            closeModal('productAdminModal');
             showToast("Đã lưu sản phẩm thành công!");
         }
 
         function deleteProduct(idx) {
-            products.splice(idx, 1); renderProducts();
-            showToast("Đã xóa sản phẩm khỏi cửa hàng!");
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+                products.splice(idx, 1); 
+                syncProductsToFirebase();
+                renderProducts();
+                showToast("Đã xóa sản phẩm khỏi cửa hàng!");
+            }
         }
 
         function deleteOrder(idx) {
-            orders.splice(idx, 1); syncOrdersToFirebase();
-            showToast("Đã xóa đơn hàng!");
+            if (confirm("Xóa đơn hàng này?")) {
+                orders.splice(idx, 1); syncOrdersToFirebase();
+                showToast("Đã xóa đơn hàng!");
+            }
         }
 
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }

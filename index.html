@@ -973,6 +973,7 @@
 
         let orders = [];
 
+        // ĐÃ CẬP NHẬT TRỰC TIẾP LINK FACEBOOK VÀ INSTAGRAM VÀO ĐÂY
         let sidebarConfig = {
             sizeChart: `• Size S: 45 - 55kg (Cao 1m50 - 1m62)\n• Size M: 55 - 65kg (Cao 1m63 - 1m70)\n• Size L: 65 - 75kg (Cao 1m71 - 1m78)\n• Size XL: 75 - 85kg (Cao 1m79 - 1m85)`,
             sizeImg: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500',
@@ -980,8 +981,8 @@
             heroTitle: `Chuyên Order Đồ Thời Trang Thể Thao Nam Nữ`,
             hotline1: `0906292600`,
             hotline2: `0977710208`,
-            fbLink: `https://facebook.com`,
-            igLink: `https://instagram.com`
+            fbLink: `https://www.facebook.com/profile.php?id=61594976398325`,
+            igLink: `https://www.instagram.com/shoptuoitre8`
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -994,9 +995,9 @@
         function openSocialLink(type) {
             let targetUrl = '';
             if (type === 'fb') {
-                targetUrl = formatValidUrl(sidebarConfig.fbLink || 'https://facebook.com');
+                targetUrl = formatValidUrl(sidebarConfig.fbLink || 'https://www.facebook.com/profile.php?id=61594976398325');
             } else if (type === 'ig') {
-                targetUrl = formatValidUrl(sidebarConfig.igLink || 'https://instagram.com');
+                targetUrl = formatValidUrl(sidebarConfig.igLink || 'https://www.instagram.com/shoptuoitre8');
             }
             if (targetUrl) { window.open(targetUrl, '_blank'); }
         }
@@ -1129,8 +1130,8 @@
                 document.getElementById('adminHeroTitleInput').value = sidebarConfig.heroTitle || '';
                 document.getElementById('adminHotline1Input').value = hl1;
                 document.getElementById('adminHotline2Input').value = hl2;
-                document.getElementById('adminFbInput').value = sidebarConfig.fbLink || '';
-                document.getElementById('adminIgInput').value = sidebarConfig.igLink || '';
+                document.getElementById('adminFbInput').value = sidebarConfig.fbLink || 'https://www.facebook.com/profile.php?id=61594976398325';
+                document.getElementById('adminIgInput').value = sidebarConfig.igLink || 'https://www.instagram.com/shoptuoitre8';
                 if(sidebarConfig.sizeImg) {
                     adminSizeImgBase64 = sidebarConfig.sizeImg;
                     document.getElementById('adminSizeImgPreview').src = sidebarConfig.sizeImg;
@@ -1378,7 +1379,6 @@
             document.getElementById('variantModal').classList.remove('hidden');
         }
 
-        // HÀM GỘP SỐ LƯỢNG TRONG GIỎ HÀNG THÔNG MINH
         function addToCartObject(newItem) {
             const existingIndex = cart.findIndex(item => 
                 item.id === newItem.id && 

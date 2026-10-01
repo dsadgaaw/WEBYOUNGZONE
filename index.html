@@ -951,7 +951,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHENTICATION (ĐÃ BẢO MẬT SĐT & BỔ SUNG GHI NHỚ ĐĂNG NHẬP) -->
+    <!-- MODAL AUTHENTICATION -->
     <div id="authModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
             <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fas fa-xmark text-xl"></i></button>
@@ -971,7 +971,6 @@
                     <input type="password" id="loginPass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
 
-                <!-- BỔ SUNG CHECKBOX GHI NHỚ ĐĂNG NHẬP -->
                 <div class="flex items-center justify-between pt-1">
                     <label class="flex items-center space-x-2 text-slate-300 font-semibold cursor-pointer">
                         <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-amber-500 rounded cursor-pointer">
@@ -1017,7 +1016,6 @@
 
         const ADMIN_CONFIG = { phone: '0906292600', name: 'Admin YoungZone' };
 
-        // Kiểm tra xem đã lưu tài khoản trong localStorage (Ghi nhớ) hay sessionStorage không
         let currentUser = JSON.parse(localStorage.getItem('youngzone_current_user')) || JSON.parse(sessionStorage.getItem('youngzone_current_user')) || null;
         let registeredUsers = JSON.parse(localStorage.getItem('youngzone_registered_users')) || [];
         let cart = JSON.parse(localStorage.getItem('youngzone_cart')) || [];
@@ -1051,22 +1049,7 @@
         ];
 
         let reviews = [];
-        let products = [
-            { 
-                id: 1, 
-                category: 'AO_DAU', 
-                name: 'Áo Đấu Real Madrid Rep 1:1 2026', 
-                price: 260000, 
-                tag: 'Hàng Hot 2026',
-                soldCount: 95,
-                desc: 'Chất liệu thun lạnh cao cấp, co giãn 4 chiều cực tốt. Thấm hút mồ hôi nhanh chóng, full thêu logo sắc nét chuẩn Rep 1:1 Taobao.',
-                img: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500', 
-                sizeImg: '',
-                isHot: true,
-                isReadyStock: false
-            }
-        ];
-
+        let products = [];
         let orders = [];
 
         let sidebarConfig = {
@@ -1080,7 +1063,6 @@
             igLink: `https://www.instagram.com/shoptuoitre8`
         };
 
-        // --- CÁC HÀM BẢO MẬT BỔ SUNG ---
         function maskPhoneNumber(phone) {
             if (!phone || phone.length < 6) return phone;
             return phone.substring(0, 3) + '****' + phone.substring(phone.length - 3);
@@ -1106,7 +1088,6 @@
             checkUserAuthUI();
             updateCartBadge();
             
-            // Tự động điền lại SĐT nếu từng được ghi nhớ
             const savedPhone = localStorage.getItem('youngzone_remembered_phone');
             if (savedPhone) {
                 const phoneInp = document.getElementById('loginPhone');
@@ -1148,6 +1129,7 @@
             document.getElementById('customConfirmModal').classList.remove('hidden');
         }
 
+        // TỐI ƯU NÉN ẢNH ĐỂ KHÔNG BỊ TRÀN BỘ NHỚ FIREBASE
         function handleProcessSingleImage(event, targetVarName, previewImgId) {
             const file = event.target.files[0];
             if (file) {
@@ -1158,7 +1140,7 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const max_size = 700;
+                        const max_size = 500; // Giảm dung lượng ảnh để Firebase nhận siêu nhanh
 
                         if (width > height) {
                             if (width > max_size) { height *= max_size / width; width = max_size; }
@@ -1171,7 +1153,7 @@
                         const ctx = canvas.getContext("2d");
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        const base64Res = canvas.toDataURL("image/jpeg", 0.7);
+                        const base64Res = canvas.toDataURL("image/jpeg", 0.6);
 
                         if (targetVarName === 'uploadedBillBase64') uploadedBillBase64 = base64Res;
                         else if (targetVarName === 'prodImgBase64') prodImgBase64 = base64Res;
@@ -1402,8 +1384,8 @@
                         </div>
 
                         <div>
-                            <span class="text-amber-400 font-black text-sm block">${p.price.toLocaleString()}đ</span>
-                            <span class="text-[10px] text-emerald-400 font-semibold">Cọc linh hoạt từ: ${(p.price * 0.2).toLocaleString()}đ (20%)</span>
+                            <span class="text-amber-400 font-black text-sm block">${p.price ? p.price.toLocaleString() : 0}đ</span>
+                            <span class="text-[10px] text-emerald-400 font-semibold">Cọc linh hoạt từ: ${p.price ? (p.price * 0.2).toLocaleString() : 0}đ (20%)</span>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-1.5 pt-1">
@@ -1454,7 +1436,7 @@
             document.getElementById('detailModalImg').src = p.img;
             document.getElementById('detailModalTitle').innerText = p.name;
             document.getElementById('detailModalCategory').innerText = catObj ? catObj.name : 'SẢN PHẨM';
-            document.getElementById('detailModalPrice').innerText = p.price.toLocaleString() + 'đ';
+            document.getElementById('detailModalPrice').innerText = p.price ? p.price.toLocaleString() + 'đ' : '0đ';
             document.getElementById('detailModalDesc').innerText = p.desc || 'Sản phẩm thể thao cao cấp, đơm may chuẩn nhà máy, full box/tag chuẩn 1:1.';
             
             const sizeBtnText = document.getElementById('detailSizeBtnText');
@@ -1517,7 +1499,7 @@
 
             document.getElementById('variantModalImg').src = tempSelectedProduct.img;
             document.getElementById('variantModalTitle').innerText = tempSelectedProduct.name;
-            document.getElementById('variantModalPrice').innerText = tempSelectedProduct.price.toLocaleString() + 'đ';
+            document.getElementById('variantModalPrice').innerText = tempSelectedProduct.price ? tempSelectedProduct.price.toLocaleString() + 'đ' : '0đ';
 
             document.getElementById('btnConfirmVariant').innerText = buyNow ? "Mua Ngay & Thanh Toán" : "Xác Nhận Thêm Vào Giỏ Hàng";
             document.getElementById('variantModal').classList.remove('hidden');
@@ -1857,7 +1839,6 @@
             });
         }
 
-        // --- TRA CỨU ĐƠN HÀNG BẢO MẬT BẮT BUỘC NHẬP MÃ ĐƠN ---
         function searchCustomerOrder() {
             const inputOrderCode = document.getElementById('trackingSearchInput').value.trim().toUpperCase();
             const resDiv = document.getElementById('trackingResultList');
@@ -2238,7 +2219,6 @@
             }
         }
 
-        // --- ĐĂNG NHẬP, MÃ HÓA SHA-256 & XỬ LÝ GHI NHỚ ĐĂNG NHẬP ---
         function handleLoginSubmit(e) {
             e.preventDefault();
             const phone = document.getElementById('loginPhone').value.trim();
@@ -2296,7 +2276,6 @@
             registeredUsers.push({ name, phone, pass: hashedPass });
             currentUser = { name, phone, role: 'USER' };
             
-            // Mặc định đăng ký lưu localStorage
             localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
             saveWebStorage(); checkUserAuthUI(); closeModal('authModal');
             showToast("Tạo tài khoản thành công!");
@@ -2394,6 +2373,7 @@
             document.getElementById('productAdminModal').classList.remove('hidden');
         }
 
+        // HÀM LƯU SẢN PHẨM SỬA CHUẨN XÁC VÀ ĐỒNG BỘ NGHÊNH NGANG LÊN FIREBASE
         function handleSaveProduct(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('editProdIndex').value);
@@ -2403,11 +2383,14 @@
                 return;
             }
 
+            const catSelectVal = document.getElementById('prodCategory').value;
+            const fallbackCategory = (dynamicCategories && dynamicCategories.length > 0) ? dynamicCategories[0].code : 'AO_DAU';
+
             const pObj = {
                 id: idx >= 0 ? products[idx].id : Date.now(),
-                name: document.getElementById('prodName').value,
-                category: document.getElementById('prodCategory').value,
-                price: parseInt(document.getElementById('prodPrice').value),
+                name: document.getElementById('prodName').value.trim(),
+                category: catSelectVal || fallbackCategory,
+                price: parseInt(document.getElementById('prodPrice').value) || 0,
                 tag: document.getElementById('prodTag').value.trim(),
                 soldCount: parseInt(document.getElementById('prodSold').value) || 0,
                 desc: document.getElementById('prodDesc').value.trim(),
@@ -2420,10 +2403,16 @@
             if (idx >= 0) products[idx] = pObj;
             else products.unshift(pObj);
 
-            syncProductsToFirebase();
-            renderProducts(); 
-            closeModal('productAdminModal');
-            showToast("Đã lưu sản phẩm thành công!");
+            // Ghi dữ liệu trực tiếp lên Firebase
+            db.ref('youngzone_web_products').set(products, (error) => {
+                if (error) {
+                    showToast("Lỗi kết nối Firebase: " + error.message);
+                } else {
+                    renderProducts(); 
+                    closeModal('productAdminModal');
+                    showToast("Đã lưu & tạo sản phẩm thành công!");
+                }
+            });
         }
 
         function deleteProduct(idx) {

@@ -3,7 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YoungZone - Order Đồ Thời Trang Thể Thao Nam Nữ</title>
+    <meta name="robots" content="index, follow">
+    
+    <!-- STANDARD SEO META TAGS -->
+    <title>YoungZone Sports - Cửa Hàng Order Thời Trang Thể Thao Nam Nữ</title>
+    <meta name="description" content="YoungZone Sports chuyên order đồ thời trang thể thao nam nữ, quần áo bóng đá CLB, đồ tập gym, giày thể thao chuẩn Rep 1:1 Taobao/1688. Vận chuyển siêu tốc 5-7 ngày, cọc linh hoạt, FreeShip Hà Nội.">
+    <meta name="keywords" content="YoungZone, YoungZone Sports, order taobao, quần áo đá bóng, áo đấu bóng đá 2026, đồ tập gym nam nữ, giày thể thao, áo bóng đá hà nội, order hàng trung quốc">
+    <meta name="author" content="YoungZone Sports">
+    <link rel="canonical" href="https://youngzonesports.com">
+
+    <!-- OPEN GRAPH META TAGS (FB, ZALO, MESSENGER) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://youngzonesports.com">
+    <meta property="og:title" content="YoungZone Sports - Order Đồ Thời Trang Thể Thao Nam Nữ">
+    <meta property="og:description" content="Chuyên Order trực tiếp nhà máy Taobao/1688. Cam kết full tag/box, vận chuyển 5-7 ngày, cọc linh hoạt, FreeShip Hà Nội.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1200">
+    <meta property="og:locale" content="vi_VN">
+
+    <!-- TWITTER CARD META TAGS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="YoungZone Sports - Order Đồ Thời Trang Thể Thao Nam Nữ">
+    <meta name="twitter:description" content="Chuyên Order trực tiếp nhà máy Taobao/1688. Hàng về 5-7 ngày, FreeShip Hà Nội.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1200">
+
+    <!-- SCHEMA JSON-LD STRUCTURAL DATA FOR GOOGLE INDEXING -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "OnlineStore",
+      "name": "YoungZone Sports",
+      "image": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1200",
+      "description": "YoungZone Sports chuyên order đồ thời trang thể thao nam nữ, quần áo bóng đá CLB, đồ tập gym, giày thể thao chuẩn Rep 1:1 Taobao/1688.",
+      "telephone": "+84906292600",
+      "priceRange": "50000VND - 10000000VND",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Hà Nội",
+        "addressCountry": "VN"
+      },
+      "url": "https://youngzonesports.com"
+    }
+    </script>
     
     <!-- PWA Config -->
     <link rel="manifest" href="manifest.json">
@@ -22,6 +62,9 @@
     <!-- Firebase SDK (Compatibility Mode) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- CryptoJS Lib for Password Hashing Security -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
@@ -313,13 +356,13 @@
         </div>
     </main>
 
-    <!-- SECTION 2: TRA CỨU ĐƠN HÀNG -->
+    <!-- SECTION 2: TRA CỨU ĐƠN HÀNG (BẢO MẬT NÂNG CAO) -->
     <main id="sectionTracking" class="max-w-4xl mx-auto px-4 mt-8 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl mb-6">
-            <h2 class="text-base font-bold text-white mb-2"><i class="fas fa-search text-amber-500 mr-2"></i>Tra Cứu Tiến Độ Đơn Hàng</h2>
-            <p class="text-xs text-slate-400 mb-4">Nhập Số điện thoại hoặc Mã đơn hàng (VD: YZ20260928-001) để tra cứu hành trình vận chuyển.</p>
+            <h2 class="text-base font-bold text-white mb-2"><i class="fas fa-shield-halved text-amber-500 mr-2"></i>Tra Cứu Tiến Độ Đơn Hàng Bảo Mật</h2>
+            <p class="text-xs text-slate-400 mb-4">Nhập chính xác <b>Mã Vận Đơn</b> (Ví dụ: YZ20261001-123) để kiểm tra hành trình đơn hàng. Vì lý do bảo mật thông tin cá nhân khách hàng, hệ thống không cho phép tra cứu tràn lan bằng SĐT.</p>
             <div class="flex gap-2">
-                <input type="text" id="trackingSearchInput" placeholder="Nhập SĐT hoặc Mã đơn..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                <input type="text" id="trackingSearchInput" placeholder="Nhập Mã đơn hàng (VD: YZ20261001-123)..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold uppercase">
                 <button onclick="searchCustomerOrder()" class="gold-gradient text-slate-950 font-extrabold px-6 py-3 rounded-xl text-sm hover:opacity-90 transition">Tra Cứu</button>
             </div>
         </div>
@@ -472,7 +515,7 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-6 shadow-xl space-y-3">
             <h3 class="text-xs font-bold text-amber-400 flex items-center border-b border-slate-800 pb-3">
-                <i class="fas fa-users mr-2"></i>Danh Sách Khách Hàng Đã Đăng Ký Tài Khoản
+                <i class="fas fa-users mr-2"></i>Danh Sách Khách Hàng Đã Đăng Ký Tài Khoản (Bảo Mật SĐT)
             </h3>
             <div id="adminUserList" class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs"></div>
         </div>
@@ -1015,6 +1058,26 @@
             igLink: `https://www.instagram.com/shoptuoitre8`
         };
 
+        // --- CÁC HÀM BẢO MẬT BỔ SUNG ---
+        function maskPhoneNumber(phone) {
+            if (!phone || phone.length < 6) return phone;
+            return phone.substring(0, 3) + '****' + phone.substring(phone.length - 3);
+        }
+
+        function maskName(name) {
+            if (!name) return name;
+            const parts = name.trim().split(' ');
+            if (parts.length === 1) return name[0] + '***';
+            return parts[0][0] + '*** ' + parts[parts.length - 1];
+        }
+
+        function hashPassword(password) {
+            if (typeof CryptoJS !== 'undefined') {
+                return CryptoJS.SHA256(password).toString();
+            }
+            return password;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             initFirebaseListeners();
             initBannerUI();
@@ -1099,7 +1162,6 @@
         }
 
         function initFirebaseListeners() {
-            // LẮNG NGHE ĐỒNG BỘ ĐƠN HÀNG TỪ NHÁNH CHUNG 'youngzone_orders'
             db.ref('youngzone_orders').on('value', (snapshot) => {
                 const data = snapshot.val();
                 orders = data ? Object.values(data) : [];
@@ -1492,7 +1554,6 @@
             showToast(`Đã chép thông tin đơn [${o.id}] cho Shipper!`);
         }
 
-        // ĐỒNG BỘ ĐƠN HÀNG LÊN NHÁNH CHUNG 'youngzone_orders'
         function syncOrdersToFirebase() { db.ref('youngzone_orders').set(orders); }
         function syncReviewsToFirebase() { db.ref('youngzone_web_reviews').set(reviews); }
         function syncProductsToFirebase() { db.ref('youngzone_web_products').set(products); }
@@ -1706,7 +1767,6 @@
             document.getElementById('vietQrImg').src = qrUrl;
         }
 
-        // XỬ LÝ ĐẶT HÀNG TỪ KHÁCH HÀNG
         function processCustomerOrder(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value.trim();
@@ -1741,12 +1801,10 @@
                 billImg: uploadedBillBase64
             };
 
-            // ĐẨY TRỰC TIẾP LÊN NHÁNH 'youngzone_orders' DÙNG PHƯƠNG THỨC PUSH HOẶC CẬP NHẬT MẢNG
             db.ref('youngzone_orders').push(newOrder, (error) => {
                 if (error) {
                     showToast("Có lỗi xảy ra khi lưu đơn hàng lên Firebase!");
                 } else {
-                    // Cập nhật mảng local và làm sạch giỏ hàng
                     orders.unshift(newOrder);
                     cart = [];
                     discountAmount = 0;
@@ -1759,22 +1817,20 @@
             });
         }
 
+        // --- TRA CỨU ĐƠN HÀNG BẢO MẬT BẮT BUỘC NHẬP MÃ ĐƠN ---
         function searchCustomerOrder() {
-            const query = document.getElementById('trackingSearchInput').value.trim().toLowerCase();
+            const inputOrderCode = document.getElementById('trackingSearchInput').value.trim().toUpperCase();
             const resDiv = document.getElementById('trackingResultList');
 
-            if (!query && !currentUser) {
-                resDiv.innerHTML = `<div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center text-xs text-slate-400">Vui lòng nhập SĐT hoặc Mã vận đơn.</div>`;
+            if (!inputOrderCode) {
+                resDiv.innerHTML = `<div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center text-xs text-rose-400">Vui lòng nhập chính xác Mã vận đơn (VD: YZ20261001-123) để bảo mật thông tin!</div>`;
                 return;
             }
 
-            const matched = orders.filter(o => {
-                if (query) return (o.id && o.id.toLowerCase().includes(query)) || (o.phone && o.phone.includes(query));
-                return currentUser && o.phone === currentUser.phone;
-            });
+            const matched = orders.filter(o => o.id && o.id.toUpperCase() === inputOrderCode);
 
             if (matched.length === 0) {
-                resDiv.innerHTML = `<div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center text-xs text-slate-400">Không tìm thấy đơn hàng nào. Vui lòng liên hệ Admin Zalo!</div>`;
+                resDiv.innerHTML = `<div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center text-xs text-slate-400">Không tìm thấy đơn hàng nào khớp với Mã Vận Đơn trên. Vui lòng kiểm tra lại hoặc liên hệ Zalo Admin!</div>`;
                 return;
             }
 
@@ -1801,8 +1857,8 @@
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs pt-2 border-t border-slate-800">
-                        <div><span class="text-slate-400 block">Khách hàng:</span><b class="text-slate-200">${o.customer}</b></div>
-                        <div><span class="text-slate-400 block">Địa chỉ:</span><b class="text-slate-200">${o.address}</b></div>
+                        <div><span class="text-slate-400 block">Khách hàng:</span><b class="text-slate-200">${maskName(o.customer)}</b></div>
+                        <div><span class="text-slate-400 block">Số điện thoại:</span><b class="text-slate-200">${maskPhoneNumber(o.phone)}</b></div>
                         <div><span class="text-slate-400 block">Giá trọn gói (FreeShip):</span><b class="text-amber-400 font-black">${o.total ? o.total.toLocaleString() : 0}đ</b></div>
                         <div><span class="text-slate-400 block">Đã cọc (${o.depositPercent || 50}%):</span><b class="text-emerald-400 font-bold">${o.deposit ? o.deposit.toLocaleString() : 0}đ</b></div>
                         <div><span class="text-slate-400 block">Còn lại thu COD:</span><b class="text-amber-400 font-bold">${(o.total - o.deposit) ? (o.total - o.deposit).toLocaleString() : 0}đ</b></div>
@@ -1950,8 +2006,8 @@
             container.innerHTML = registeredUsers.map(u => `
                 <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center">
                     <div>
-                        <b class="text-white block">${u.name}</b>
-                        <span class="text-amber-400 text-[10px]">📱 ${u.phone}</span>
+                        <b class="text-white block">${maskName(u.name)}</b>
+                        <span class="text-amber-400 text-[10px]">📱 ${maskPhoneNumber(u.phone)}</span>
                     </div>
                     <a href="https://zalo.me/${u.phone}" target="_blank" class="bg-blue-600/20 text-blue-400 px-2 py-1 rounded text-[10px] font-bold border border-blue-500/30">Zalo</a>
                 </div>
@@ -2030,7 +2086,7 @@
             container.innerHTML = reviews.map((r) => `
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 space-y-2 relative">
                     <div class="flex justify-between items-center">
-                        <b class="text-slate-200">${r.author}</b>
+                        <b class="text-slate-200">${maskName(r.author)}</b>
                         <span class="text-amber-400">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</span>
                     </div>
                     <span class="text-[10px] text-amber-400 font-semibold block">Sản phẩm: ${r.product}</span>
@@ -2137,6 +2193,7 @@
             }
         }
 
+        // --- ĐĂNG NHẬP & MÃ HÓA MẬT KHẨU SHA-256 ---
         function handleLoginSubmit(e) {
             e.preventDefault();
             const phone = document.getElementById('loginPhone').value.trim();
@@ -2150,7 +2207,8 @@
                 showSection('admin'); renderProducts(); return;
             }
 
-            const user = registeredUsers.find(u => u.phone === phone && u.pass === pass);
+            const hashedPass = hashPassword(pass);
+            const user = registeredUsers.find(u => u.phone === phone && u.pass === hashedPass);
             if (user) {
                 currentUser = { name: user.name, phone: user.phone, role: 'USER' };
                 localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
@@ -2168,7 +2226,8 @@
             if (phone === ADMIN_CONFIG.phone) { showToast("SĐT này thuộc về Admin!"); return; }
             if (registeredUsers.some(u => u.phone === phone)) { showToast("SĐT này đã được đăng ký!"); return; }
 
-            registeredUsers.push({ name, phone, pass });
+            const hashedPass = hashPassword(pass);
+            registeredUsers.push({ name, phone, pass: hashedPass });
             currentUser = { name, phone, role: 'USER' };
             localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
             saveWebStorage(); checkUserAuthUI(); closeModal('authModal');
@@ -2196,7 +2255,6 @@
                 document.getElementById('sectionTracking').classList.remove('hidden');
                 document.getElementById('btnNavTracking').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition";
                 document.getElementById('btnNavShop').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:text-white transition";
-                searchCustomerOrder();
             } else if (sec === 'admin') {
                 if (!currentUser || currentUser.phone !== ADMIN_CONFIG.phone) {
                     showToast("Không có quyền truy cập trang Admin!");

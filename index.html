@@ -665,7 +665,7 @@
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Số Điện Thoại Zalo *</label>
-                    <input type="tel" id="custPhone" required placeholder="0906292600" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
+                    <input type="tel" id="custPhone" required placeholder="0901234567" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Địa chỉ nhận hàng tận nhà *</label>
@@ -951,9 +951,9 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHENTICATION -->
+    <!-- MODAL AUTHENTICATION (ĐÃ BẢO MẬT SĐT & BỔ SUNG GHI NHỚ ĐĂNG NHẬP) -->
     <div id="authModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 relative">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
             <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fas fa-xmark text-xl"></i></button>
             
             <div class="flex border-b border-slate-800 mb-4 text-xs font-bold">
@@ -964,29 +964,38 @@
             <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-3 text-xs">
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Số điện thoại</label>
-                    <input type="tel" id="loginPhone" required placeholder="0906292600" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <input type="tel" id="loginPhone" required placeholder="Nhập số điện thoại..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Mật khẩu</label>
-                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
-                <button type="submit" class="w-full gold-gradient text-slate-950 font-extrabold py-3 rounded-xl text-xs hover:opacity-90">Đăng Nhập</button>
+
+                <!-- BỔ SUNG CHECKBOX GHI NHỚ ĐĂNG NHẬP -->
+                <div class="flex items-center justify-between pt-1">
+                    <label class="flex items-center space-x-2 text-slate-300 font-semibold cursor-pointer">
+                        <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                        <span>Ghi nhớ đăng nhập</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full gold-gradient text-slate-950 font-extrabold py-3 rounded-xl text-xs hover:opacity-90 transition mt-2">Đăng Nhập</button>
             </form>
 
             <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-3 text-xs hidden">
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Họ và Tên</label>
-                    <input type="text" id="regName" required placeholder="Nguyễn Văn A" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <input type="text" id="regName" required placeholder="Nguyễn Văn A" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Số điện thoại Zalo</label>
-                    <input type="tel" id="regPhone" required placeholder="0906292600" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <input type="tel" id="regPhone" required placeholder="Nhập số điện thoại Zalo..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">Tạo mật khẩu</label>
-                    <input type="password" id="regPass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
+                    <input type="password" id="regPass" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
-                <button type="submit" class="w-full gold-gradient text-slate-950 font-extrabold py-3 rounded-xl text-xs hover:opacity-90">Tạo Tài Khoản Ngay</button>
+                <button type="submit" class="w-full gold-gradient text-slate-950 font-extrabold py-3 rounded-xl text-xs hover:opacity-90 transition mt-2">Tạo Tài Khoản Ngay</button>
             </form>
         </div>
     </div>
@@ -1008,6 +1017,7 @@
 
         const ADMIN_CONFIG = { phone: '0906292600', name: 'Admin YoungZone' };
 
+        // Kiểm tra xem đã lưu tài khoản trong localStorage (Ghi nhớ) hay sessionStorage không
         let currentUser = JSON.parse(localStorage.getItem('youngzone_current_user')) || JSON.parse(sessionStorage.getItem('youngzone_current_user')) || null;
         let registeredUsers = JSON.parse(localStorage.getItem('youngzone_registered_users')) || [];
         let cart = JSON.parse(localStorage.getItem('youngzone_cart')) || [];
@@ -1095,6 +1105,15 @@
             initBannerUI();
             checkUserAuthUI();
             updateCartBadge();
+            
+            // Tự động điền lại SĐT nếu từng được ghi nhớ
+            const savedPhone = localStorage.getItem('youngzone_remembered_phone');
+            if (savedPhone) {
+                const phoneInp = document.getElementById('loginPhone');
+                const remCheck = document.getElementById('rememberMe');
+                if (phoneInp) phoneInp.value = savedPhone;
+                if (remCheck) remCheck.checked = true;
+            }
         });
 
         function openSocialLink(type) {
@@ -2205,28 +2224,49 @@
             }
         }
 
-        // --- ĐĂNG NHẬP & MÃ HÓA MẬT KHẨU SHA-256 ---
+        // --- ĐĂNG NHẬP, MÃ HÓA SHA-256 & XỬ LÝ GHI NHỚ ĐĂNG NHẬP ---
         function handleLoginSubmit(e) {
             e.preventDefault();
             const phone = document.getElementById('loginPhone').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
+            const isRemember = document.getElementById('rememberMe').checked;
+
+            let loggedInUser = null;
 
             if (phone === ADMIN_CONFIG.phone) {
-                currentUser = { name: ADMIN_CONFIG.name, phone: ADMIN_CONFIG.phone, role: 'ADMIN' };
-                localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
-                checkUserAuthUI(); closeModal('authModal');
-                showToast("Đăng nhập Admin YoungZone thành công!");
-                showSection('admin'); renderProducts(); return;
+                loggedInUser = { name: ADMIN_CONFIG.name, phone: ADMIN_CONFIG.phone, role: 'ADMIN' };
+            } else {
+                const hashedPass = hashPassword(pass);
+                const user = registeredUsers.find(u => u.phone === phone && u.pass === hashedPass);
+                if (user) {
+                    loggedInUser = { name: user.name, phone: user.phone, role: 'USER' };
+                }
             }
 
-            const hashedPass = hashPassword(pass);
-            const user = registeredUsers.find(u => u.phone === phone && u.pass === hashedPass);
-            if (user) {
-                currentUser = { name: user.name, phone: user.phone, role: 'USER' };
-                localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
-                checkUserAuthUI(); closeModal('authModal');
-                showToast(`Xin chào ${user.name}! Đăng nhập thành công.`);
-            } else { showToast("Số điện thoại hoặc Mật khẩu không đúng!"); }
+            if (loggedInUser) {
+                currentUser = loggedInUser;
+                
+                if (isRemember) {
+                    localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
+                    localStorage.setItem('youngzone_remembered_phone', phone);
+                    sessionStorage.removeItem('youngzone_current_user');
+                } else {
+                    sessionStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
+                    localStorage.removeItem('youngzone_current_user');
+                    localStorage.removeItem('youngzone_remembered_phone');
+                }
+
+                checkUserAuthUI(); 
+                closeModal('authModal');
+                showToast(`Xin chào ${currentUser.name}! Đăng nhập thành công.`);
+                
+                if (currentUser.role === 'ADMIN') {
+                    showSection('admin'); 
+                }
+                renderProducts();
+            } else { 
+                showToast("Số điện thoại hoặc Mật khẩu không đúng!"); 
+            }
         }
 
         function handleRegisterSubmit(e) {
@@ -2241,6 +2281,8 @@
             const hashedPass = hashPassword(pass);
             registeredUsers.push({ name, phone, pass: hashedPass });
             currentUser = { name, phone, role: 'USER' };
+            
+            // Mặc định đăng ký lưu localStorage
             localStorage.setItem('youngzone_current_user', JSON.stringify(currentUser));
             saveWebStorage(); checkUserAuthUI(); closeModal('authModal');
             showToast("Tạo tài khoản thành công!");
